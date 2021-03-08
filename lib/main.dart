@@ -6,6 +6,7 @@ class Quizzler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
@@ -25,6 +26,23 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Widget> scoreKeeper = [];
+  List<String> questions = [
+    'Vacas utilizam freio para ficar no morro',
+    'Os alemães adoram maçã',
+    'A caixa d\'agua é feita de ferro',
+  ];
+
+  List<bool> answers = [
+    false,
+    true,
+    true,
+  ];
+
+  int inputIndex = 0;
+  bool correctAnswer;
+  bool inputAnswer;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +55,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[inputIndex],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -50,7 +68,7 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
+            child: MaterialButton(
               textColor: Colors.white,
               color: Colors.green,
               child: Text(
@@ -61,6 +79,13 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  correctAnswer = answers[inputIndex];
+                  inputAnswer = true;
+                  checker();
+                  print(checker());
+                  increaseInputNumber();
+                });
                 //The user picked true.
               },
             ),
@@ -69,7 +94,7 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
+            child: MaterialButton(
               color: Colors.red,
               child: Text(
                 'False',
@@ -79,14 +104,36 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  correctAnswer = answers[inputIndex];
+                  inputAnswer = false;
+                  checker();
+                  print(checker());
+                  increaseInputNumber();
+                });
                 //The user picked false.
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: scoreKeeper,
+        )
       ],
     );
+  }
+
+  void increaseInputNumber() {
+    if (inputIndex < questions.length - 1) inputIndex++;
+    //print(inputIndex);
+  }
+
+  String checker() {
+    if (correctAnswer == inputAnswer) {
+      return 'Acertou miseravi';
+    } else {
+      return 'Errou';
+    }
   }
 }
 
