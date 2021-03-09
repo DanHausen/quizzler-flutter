@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -38,6 +39,9 @@ class _QuizPageState extends State<QuizPage> {
     true,
     true,
   ];
+
+  Question q1 =
+      new Question(q: 'Vacas utilizam freio para ficar no morro', a: false);
 
   int inputIndex = 0;
   bool correctAnswer;
