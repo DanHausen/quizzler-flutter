@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'quiz_brain.dart';
 
+QuizBrain quizBrain = new QuizBrain();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -28,20 +29,19 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
-  List<String> questions = [
-    'Vacas utilizam freio para ficar no morro',
-    'Os alemães adoram maçã',
-    'A caixa d\'agua é feita de ferro',
-  ];
 
-  List<bool> answers = [
-    false,
-    true,
-    true,
-  ];
-
-  Question q1 =
-      new Question(q: 'Vacas utilizam freio para ficar no morro', a: false);
+  // List<String> questions = [
+  //   'Vacas utilizam freio para ficar no morro',
+  //   'Os alemães adoram maçã',
+  //   'A caixa d\'agua é feita de ferro',
+  // ];
+  // List<bool> answers = [
+  //   false,
+  //   true,
+  //   true,
+  // ];
+  // Question q1 =
+  //     new Question(q: 'Vacas utilizam freio para ficar no morro', a: false);
 
   int inputIndex = 0;
   bool correctAnswer;
@@ -59,7 +59,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[inputIndex],
+                quizBrain.questionStore[inputIndex].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -84,7 +84,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  correctAnswer = answers[inputIndex];
+                  correctAnswer =
+                      quizBrain.questionStore[inputIndex].questionAnswer;
                   inputAnswer = true;
                   checker();
                   print(checker());
@@ -109,7 +110,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() {
-                  correctAnswer = answers[inputIndex];
+                  correctAnswer =
+                      quizBrain.questionStore[inputIndex].questionAnswer;
                   inputAnswer = false;
                   checker();
                   print(checker());
@@ -128,7 +130,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void increaseInputNumber() {
-    if (inputIndex < questions.length - 1) inputIndex++;
+    if (inputIndex < quizBrain.questionStore.length - 1) inputIndex++;
     //print(inputIndex);
   }
 
