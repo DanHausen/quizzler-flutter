@@ -43,7 +43,6 @@ class _QuizPageState extends State<QuizPage> {
   // Question q1 =
   //     new Question(q: 'Vacas utilizam freio para ficar no morro', a: false);
 
-  int inputIndex = 0;
   bool correctAnswer;
   bool inputAnswer;
 
@@ -59,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionStore[inputIndex].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -83,13 +82,13 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                correctAnswer = quizBrain.getQuestionAnswer();
+                inputAnswer = true;
+                checker();
+                print(checker());
+
                 setState(() {
-                  correctAnswer =
-                      quizBrain.questionStore[inputIndex].questionAnswer;
-                  inputAnswer = true;
-                  checker();
-                  print(checker());
-                  increaseInputNumber();
+                  quizBrain.isItSafeForNextQuestion();
                 });
                 //The user picked true.
               },
@@ -109,13 +108,13 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                correctAnswer = quizBrain.getQuestionAnswer();
+                inputAnswer = false;
+                checker();
+                print(checker());
+
                 setState(() {
-                  correctAnswer =
-                      quizBrain.questionStore[inputIndex].questionAnswer;
-                  inputAnswer = false;
-                  checker();
-                  print(checker());
-                  increaseInputNumber();
+                  quizBrain.isItSafeForNextQuestion();
                 });
                 //The user picked false.
               },
@@ -127,11 +126,6 @@ class _QuizPageState extends State<QuizPage> {
         )
       ],
     );
-  }
-
-  void increaseInputNumber() {
-    if (inputIndex < quizBrain.questionStore.length - 1) inputIndex++;
-    //print(inputIndex);
   }
 
   String checker() {
