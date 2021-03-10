@@ -32,7 +32,7 @@ class QuizBrain {
   ];
 
   void isItSafeForNextQuestion() {
-    if (_questionNumber < _questionStore.length) {
+    if (_questionNumber < _questionStore.length - 1) {
       _questionNumber++;
     }
   }
@@ -43,5 +43,14 @@ class QuizBrain {
 
   bool getQuestionAnswer() {
     return _questionStore[_questionNumber].questionAnswer;
+  }
+
+  bool gameIsFinished() {
+    if (_questionNumber >= _questionStore.length - 1) {
+      print('Truue');
+      return true;
+    } else {
+      return false;
+    }
   }
 }

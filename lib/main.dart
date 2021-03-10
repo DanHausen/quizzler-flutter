@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = new QuizBrain();
@@ -43,9 +44,6 @@ class _QuizPageState extends State<QuizPage> {
   // Question q1 =
   //     new Question(q: 'Vacas utilizam freio para ficar no morro', a: false);
 
-  bool correctAnswer;
-  bool inputAnswer;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -82,15 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                correctAnswer = quizBrain.getQuestionAnswer();
-                inputAnswer = true;
-                checker();
-                print(checker());
-
-                setState(() {
-                  quizBrain.isItSafeForNextQuestion();
-                });
-                //The user picked true.
+                checkAnswer(true);
               },
             ),
           ),
@@ -108,15 +98,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                correctAnswer = quizBrain.getQuestionAnswer();
-                inputAnswer = false;
-                checker();
-                print(checker());
-
-                setState(() {
-                  quizBrain.isItSafeForNextQuestion();
-                });
-                //The user picked false.
+                checkAnswer(false);
               },
             ),
           ),
@@ -128,12 +110,17 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  String checker() {
-    if (correctAnswer == inputAnswer) {
-      return 'Acertou miseravi';
-    } else {
-      return 'Errou';
-    }
+  void checkAnswer(bool userSelectedAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    setState(() {
+      if (userSelectedAnswer == correctAnswer) {
+        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+      } else {
+        scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+      }
+      quizBrain.isItSafeForNextQuestion();
+    });
   }
 }
 
